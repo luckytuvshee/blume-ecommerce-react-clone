@@ -1,0 +1,12 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+
+  .title {
+    margin-top: 50px;
+    font-family: ValueSerif;
+    font-size: 38px;
+    text-align: center;
+  }
+}

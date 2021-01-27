@@ -1,0 +1,9 @@
+.login {
+  background: #fff;
+  padding: 80px 30px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Montserrat, sans-serif;
+}
