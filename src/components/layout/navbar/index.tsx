@@ -11,10 +11,11 @@ import "./style.scss";
 
 interface Props {
   auth: any;
+  baskets: any;
   logout: () => void;
 }
 
-const NavBar: React.FC<Props> = ({ auth, logout }) => {
+const NavBar: React.FC<Props> = ({ auth, baskets, logout }) => {
   const history = useHistory();
   const [open, setOpen] = useState<boolean>(false);
   const [basketOpen, setBasketOpen] = useState<boolean>(false);
@@ -109,7 +110,7 @@ const NavBar: React.FC<Props> = ({ auth, logout }) => {
           )}
           <div onClick={() => toggleBasket()} className="nav-icon">
             <BasketIcon />
-            <span className="basket-count">20</span>
+            <span className="basket-count">{baskets.length}</span>
           </div>
         </div>
         <Basket basketOpen={basketOpen} closeBasket={toggleBasket} />

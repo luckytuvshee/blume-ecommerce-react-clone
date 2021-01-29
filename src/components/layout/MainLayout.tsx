@@ -1,10 +1,16 @@
+import { connect } from "react-redux";
 import NavBar from "./navbar";
 import "./style.scss";
 
-const MainLayout: React.FC = ({ children }) => {
+interface Props {
+  children: any;
+  basket: any;
+}
+
+const MainLayout: React.FC<Props> = ({ children, basket: { baskets } }) => {
   return (
     <div className="layout">
-      <NavBar />
+      <NavBar baskets={baskets} />
       <div>
         <div className="content">{children}</div>
       </div>
@@ -12,4 +18,8 @@ const MainLayout: React.FC = ({ children }) => {
   );
 };
 
-export default MainLayout;
+const mapStateToProps = (state: any) => ({
+  basket: state.basket,
+});
+
+export default connect(mapStateToProps, {})(MainLayout);

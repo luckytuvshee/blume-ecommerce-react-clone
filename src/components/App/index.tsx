@@ -5,11 +5,13 @@ import Routes from "../routing/Routes";
 import { Provider } from "react-redux";
 import store from "../../store";
 import { loadUser } from "../../actions/auth";
+import { getProducts } from "../../actions/products";
 import "./style.scss";
 
 const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
+    store.dispatch(getProducts());
   }, []);
 
   return (

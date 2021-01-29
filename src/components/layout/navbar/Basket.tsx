@@ -1,11 +1,21 @@
 import React from "react";
+import { connect } from "react-redux";
+import BasketItem from "./BasketItem";
 
 interface Props {
+  basket: {
+    baskets: Object[];
+    loading: boolean;
+  };
   basketOpen: boolean;
   closeBasket: () => void;
 }
 
-const Basket: React.FC<Props> = ({ basketOpen, closeBasket }) => {
+const Basket: React.FC<Props> = ({
+  basket: { baskets, loading },
+  basketOpen,
+  closeBasket,
+}) => {
   return (
     <div
       style={{ visibility: basketOpen ? "visible" : "hidden" }}
@@ -32,7 +42,13 @@ const Basket: React.FC<Props> = ({ basketOpen, closeBasket }) => {
           </div>
         </div>
         <div className="basket-content">
-          <p className="basket-empty">Your basket is empty</p>
+          {baskets.length === 0 ? (
+            <p className="basket-empty">Your basket is empty</p>
+          ) : (
+            baskets.map((basket: any) => (
+              <BasketItem basket={basket} closeBasket={closeBasket} />
+            ))
+          )}
           <div className="subtotal">
             <p>Subtotal</p>
             <p>$0 USD</p>
@@ -45,4 +61,8 @@ const Basket: React.FC<Props> = ({ basketOpen, closeBasket }) => {
   );
 };
 
-export default Basket;
+const mapStateToProps = (state: any) => ({
+  basket: state.basket,
+});
+
+export default connect(mapStateToProps, {})(Basket);

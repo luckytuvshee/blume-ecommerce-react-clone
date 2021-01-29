@@ -10,6 +10,7 @@ import {
   AUTH_LOADING,
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
+import { getBaskets } from "./baskets";
 
 // Load User
 export const loadUser = () => async (dispatch: any) => {
@@ -22,10 +23,9 @@ export const loadUser = () => async (dispatch: any) => {
         type: USER_LOADED,
         payload: token,
       });
+      dispatch(getBaskets());
     }
   } catch (err) {
-    console.log("error : ");
-    console.log(err);
     dispatch({
       type: AUTH_ERROR,
     });
@@ -92,6 +92,8 @@ export const loginUser = (email: string, password: string) => async (
       type: LOGIN_SUCCESS,
       payload: token,
     });
+
+    dispatch(loadUser());
   } catch (err) {
     console.log("err");
     console.log(err);
