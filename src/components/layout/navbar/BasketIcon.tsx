@@ -5,15 +5,15 @@ const BasketIcon = () => (
     <g
       id="Symbols"
       stroke="none"
-      stroke-width="1"
+      strokeWidth="1"
       fill="none"
-      fill-rule="evenodd"
+      fillRule="evenodd"
     >
       <g
         id="Navigation/Default/Navy"
         transform="translate(-1310.000000, -46.000000)"
         stroke="currentColor"
-        stroke-width="1.43181818"
+        strokeWidth="1.43181818"
       >
         <g id="Group-12" transform="translate(1311.000000, 47.000000)">
           <path

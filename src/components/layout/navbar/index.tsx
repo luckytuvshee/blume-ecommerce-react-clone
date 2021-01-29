@@ -1,11 +1,21 @@
 import { useRef, useState } from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { useWindow } from "../../../hooks";
+import { logout } from "../../../actions/auth";
+import { useHistory } from "react-router-dom";
 import MobileNav from "./MobileNav";
 import Basket from "./Basket";
 import BasketIcon from "./BasketIcon";
 import "./style.scss";
 
-const NavBar = () => {
+interface Props {
+  auth: any;
+  logout: () => void;
+}
+
+const NavBar: React.FC<Props> = ({ auth, logout }) => {
+  const history = useHistory();
   const [open, setOpen] = useState<boolean>(false);
   const [basketOpen, setBasketOpen] = useState<boolean>(false);
   const menuRef = useRef<any>(null);
@@ -40,9 +50,9 @@ const NavBar = () => {
     menuRef.current.classList.toggle("open");
 
     if (menuRef.current.classList.contains("open")) {
-      enableScroll();
-    } else {
       disableScroll();
+    } else {
+      enableScroll();
     }
     setOpen(!open);
   };
@@ -63,28 +73,62 @@ const NavBar = () => {
           </div>
         ) : (
           <div className="nav nav-left">
-            <div className="nav-item">shop products</div>
+            <div className="nav-item">
+              <Link to="/">shop products</Link>
+            </div>
           </div>
         )}
 
         {/* nav-brand */}
         <div className="nav nav-center">
-          <div className="nav-brand">self Care</div>
+          <div className="nav-brand">
+            <Link to="/">self Care</Link>
+          </div>
         </div>
 
         {/* nav-right */}
         <div className="nav nav-right">
-          {!mobile && <div className="nav-item">account</div>}
+          {!mobile ? (
+            auth.isAuthenticated ? (
+              <div
+                onClick={() => {
+                  logout();
+                  history.push("/");
+                }}
+                className="nav-item"
+              >
+                logout
+              </div>
+            ) : (
+              <div className="nav-item">
+                <Link to="/account">account</Link>
+              </div>
+            )
+          ) : (
+            <></>
+          )}
           <div onClick={() => toggleBasket()} className="nav-icon">
             <BasketIcon />
             <span className="basket-count">20</span>
           </div>
         </div>
         <Basket basketOpen={basketOpen} closeBasket={toggleBasket} />
-        {mobile && <MobileNav open={open} />}
+        {mobile && (
+          <MobileNav
+            open={open}
+            isAuthenticated={auth.isAuthenticated}
+            logout={logout}
+            history={history}
+            toggleMenu={toggleMenu}
+          />
+        )}
       </div>
     </>
   );
 };
 
-export default NavBar;
+const mapStateToProps = (state: any) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { logout })(NavBar);

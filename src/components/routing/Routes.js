@@ -10,11 +10,8 @@ const Routes = () => {
   return (
     <section>
       <Switch>
-        <AuthRoute exact path="/login">
+        <AuthRoute exact path="/account">
           <Login />
-        </AuthRoute>
-        <AuthRoute exact path="/signup">
-          <Signup />
         </AuthRoute>
         <Route>
           <NotFound />

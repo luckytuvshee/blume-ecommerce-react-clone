@@ -1,10 +1,21 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 interface Props {
   open: boolean;
+  isAuthenticated: boolean;
+  logout: () => void;
+  history: any;
+  toggleMenu: () => void;
 }
 
-const MobileNav: React.FC<Props> = ({ open }) => {
+const MobileNav: React.FC<Props> = ({
+  open,
+  isAuthenticated,
+  logout,
+  history,
+  toggleMenu,
+}) => {
   return (
     <div
       style={{ visibility: open ? "visible" : "hidden" }}
@@ -15,10 +26,27 @@ const MobileNav: React.FC<Props> = ({ open }) => {
         className="navbar"
       >
         <div style={{ height: 20 }} className="nav">
-          <div className="nav-item">shop products</div>
+          <div onClick={() => toggleMenu()} className="nav-item">
+            <Link to="/">shop products</Link>
+          </div>
         </div>
         <div style={{ height: 20 }} className="nav">
-          <div className="nav-item">account</div>
+          {isAuthenticated ? (
+            <div
+              onClick={() => {
+                logout();
+                toggleMenu();
+                history.push("/");
+              }}
+              className="nav-item"
+            >
+              logout
+            </div>
+          ) : (
+            <div onClick={() => toggleMenu()} className="nav-item">
+              <Link to="/account">account</Link>
+            </div>
+          )}
         </div>
       </div>
     </div>

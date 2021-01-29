@@ -12,9 +12,7 @@ const UnauthenticatedRoute: React.FC<Props> = ({
   ...rest
 }) => {
   return (
-    <Route {...rest}>
-      {!isAuthenticated ? children : <Redirect to="/editor" />}
-    </Route>
+    <Route {...rest}>{!isAuthenticated ? children : <Redirect to="/" />}</Route>
   );
 };
 

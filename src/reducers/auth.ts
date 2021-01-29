@@ -13,14 +13,12 @@ import {
 interface state {
   isAuthenticated: boolean;
   loading: boolean;
-  user: Object | null;
   token: string | null;
 }
 
 const initialState: state = {
   isAuthenticated: false,
   loading: true,
-  user: null,
   token: localStorage.getItem("token"),
 };
 
@@ -31,7 +29,7 @@ const auth = (state = initialState, action: any) => {
     case USER_LOADED:
       return {
         ...state,
-        user: payload,
+        token: payload,
         isAuthenticated: true,
         loading: false,
       };
@@ -42,7 +40,7 @@ const auth = (state = initialState, action: any) => {
       };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
-      const token = payload.signInUserSession.accessToken.jwtToken;
+      const token = payload;
       localStorage.setItem("token", token);
       return {
         ...state,
@@ -55,7 +53,6 @@ const auth = (state = initialState, action: any) => {
     case LOGIN_FAIL:
     case LOGOUT:
     case ACCOUNT_DELETED:
-      console.log("loading is: " + state.loading);
       localStorage.removeItem("token");
       return {
         ...state,

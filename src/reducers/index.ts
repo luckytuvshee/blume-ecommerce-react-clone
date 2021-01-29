@@ -1,12 +1,8 @@
 import { combineReducers } from "redux";
-import project from "./project";
-import editor from "./editor";
-import image from "./image";
 import auth from "./auth";
+import product from "./product";
 
 export default combineReducers({
-  project,
-  editor,
-  image,
   auth,
+  product,
 });

@@ -10,11 +10,20 @@ import {
   CLEAR_PROFILE,
   AUTH_LOADING,
 } from "./types";
+import setAuthToken from "../utils/setAuthToken";
 
 // Load User
 export const loadUser = () => async (dispatch: any) => {
   try {
-    //
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      setAuthToken(token);
+      dispatch({
+        type: USER_LOADED,
+        payload: token,
+      });
+    }
   } catch (err) {
     console.log("error : ");
     console.log(err);
@@ -74,14 +83,16 @@ export const loginUser = (email: string, password: string) => async (
       type: AUTH_LOADING,
     });
 
-    const user = {};
+    const res = await axios.post("/api/auth", { email, password });
+    const token = res.data;
+
+    console.log("token");
+    console.log(token);
 
     dispatch({
       type: LOGIN_SUCCESS,
-      payload: user,
+      payload: token,
     });
-
-    // dispatch(loadUser());
   } catch (err) {
     console.log("err");
     console.log(err);
@@ -99,18 +110,11 @@ export const loginUser = (email: string, password: string) => async (
 };
 
 // Logout / Clear Profile
-export const logout = (history: any) => async (dispatch: any) => {
+export const logout = () => async (dispatch: any) => {
   try {
-    //
-
-    dispatch({
-      type: CLEAR_PROFILE,
-    });
     dispatch({
       type: LOGOUT,
     });
-
-    history.push("/");
   } catch (error) {
     console.log(error);
   }

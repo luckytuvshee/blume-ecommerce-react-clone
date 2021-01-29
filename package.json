@@ -15,7 +15,8 @@
     "@types/react-redux": "^7.1.11",
     "@types/react-router-dom": "^5.1.6",
     "@types/uuid": "^8.3.0",
-    "axios": "^0.21.0",
+    "ahooks": "^2.9.4",
+    "axios": "^0.21.1",
     "node-sass": "4.14.1",
     "react": "^17.0.1",
     "react-color": "^2.19.3",
@@ -54,5 +55,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://localhost:5000"
 }
