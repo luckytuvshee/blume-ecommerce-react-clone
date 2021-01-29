@@ -11,6 +11,7 @@ const ProductItem: React.FC<Props> = ({ product }) => {
       <div className="bottom-text">Add to cart</div>
       <div className="image-wrapper">
         <img
+          alt="kkk"
           className="lazyload"
           src="https://cdn.shopify.com/s/files/1/0003/4580/0755/products/BLUMEMAY2020-Daydreamer_1_880x800.jpg?v=1596416050"
         />

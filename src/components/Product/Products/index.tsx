@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { getProducts } from "../../../actions/products";
 import ProductItem from "../ProductItem";
@@ -18,7 +18,7 @@ const Products: React.FC<Props> = ({
 }) => {
   useEffect(() => {
     getProducts();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return !loading ? (
     <div className="products">

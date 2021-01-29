@@ -7,7 +7,6 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  CLEAR_PROFILE,
   AUTH_LOADING,
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
