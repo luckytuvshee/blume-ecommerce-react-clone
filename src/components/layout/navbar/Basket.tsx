@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import BasketItem from "./BasketItem";
+import { updateQuantity, deleteBasketProduct } from "../../../actions/baskets";
 
 interface Props {
   basket: {
@@ -8,12 +9,16 @@ interface Props {
     loading: boolean;
   };
   basketOpen: boolean;
+  updateQuantity: (quantity: number, product_id: string) => void;
+  deleteBasketProduct: (product_id: string) => void;
   closeBasket: () => void;
 }
 
 const Basket: React.FC<Props> = ({
   basket: { baskets, loading },
   basketOpen,
+  updateQuantity,
+  deleteBasketProduct,
   closeBasket,
 }) => {
   return (
@@ -46,12 +51,25 @@ const Basket: React.FC<Props> = ({
             <p className="basket-empty">Your basket is empty</p>
           ) : (
             baskets.map((basket: any) => (
-              <BasketItem basket={basket} closeBasket={closeBasket} />
+              <BasketItem
+                basket={basket}
+                closeBasket={closeBasket}
+                updateQuantity={updateQuantity}
+                deleteBasketProduct={deleteBasketProduct}
+              />
             ))
           )}
           <div className="subtotal">
             <p>Subtotal</p>
-            <p>$0 USD</p>
+            <p>
+              $
+              {baskets
+                .reduce((acc: any, item: any) => {
+                  return acc + item.price * item.quantity;
+                }, 0)
+                .toFixed(2)}
+              USD
+            </p>
           </div>
           <div className="checkout">Checkout</div>
         </div>
@@ -65,4 +83,7 @@ const mapStateToProps = (state: any) => ({
   basket: state.basket,
 });
 
-export default connect(mapStateToProps, {})(Basket);
+export default connect(mapStateToProps, {
+  updateQuantity,
+  deleteBasketProduct,
+})(Basket);

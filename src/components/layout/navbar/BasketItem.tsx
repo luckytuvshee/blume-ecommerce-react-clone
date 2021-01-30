@@ -4,16 +4,22 @@ import CloseSvg from "./CloseSvg";
 
 interface Props {
   basket: any;
+  updateQuantity: (quantity: number, product_id: string) => void;
+  deleteBasketProduct: (product_id: string) => void;
   closeBasket: () => void;
 }
 
-const BasketItem: React.FC<Props> = ({ basket, closeBasket }) => {
+const BasketItem: React.FC<Props> = ({
+  basket,
+  updateQuantity,
+  deleteBasketProduct,
+  closeBasket,
+}) => {
   const history = useHistory();
 
-  const updateQuantity = (quantity: number) => {
-    if (quantity <= 0) return;
-
-    console.log(quantity);
+  const updateBasketQuantity = (quantity: number) => {
+    if (quantity === -1 && basket.quantity <= 1) return;
+    updateQuantity(quantity, basket.product_id);
   };
 
   return (
@@ -43,25 +49,22 @@ const BasketItem: React.FC<Props> = ({ basket, closeBasket }) => {
           >
             {basket.title}
           </p>
-          <CloseSvg />
+          <CloseSvg
+            product_id={basket.product_id}
+            deleteBasketProduct={deleteBasketProduct}
+          />
         </div>
         <div className="bottom">
           <div className="quantity">
-            <span
-              onClick={() => updateQuantity(basket.quantity - 1)}
-              className="minus"
-            >
+            <span onClick={() => updateBasketQuantity(-1)} className="minus">
               -
             </span>
             <span className="product-quantity">{basket.quantity}</span>
-            <span
-              onClick={() => updateQuantity(basket.quantity + 1)}
-              className="plus"
-            >
+            <span onClick={() => updateBasketQuantity(1)} className="plus">
               +
             </span>
           </div>
-          <p>${basket.price * basket.quantity} USD</p>
+          <p>${(basket.price * basket.quantity).toFixed(2)} USD</p>
         </div>
       </div>
     </div>

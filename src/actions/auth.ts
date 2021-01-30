@@ -8,6 +8,7 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   AUTH_LOADING,
+  CLEAR_BASKET,
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
 import { getBaskets } from "./baskets";
@@ -115,6 +116,10 @@ export const logout = () => async (dispatch: any) => {
   try {
     dispatch({
       type: LOGOUT,
+    });
+
+    dispatch({
+      type: CLEAR_BASKET,
     });
   } catch (error) {
     console.log(error);

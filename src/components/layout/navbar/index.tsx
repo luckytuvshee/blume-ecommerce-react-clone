@@ -1,29 +1,36 @@
 import { useRef, useState } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import { useWindow } from "../../../hooks";
 import { logout } from "../../../actions/auth";
 import { useHistory } from "react-router-dom";
 import MobileNav from "./MobileNav";
 import Basket from "./Basket";
 import BasketIcon from "./BasketIcon";
+import { toggleBasket } from "../../../actions/baskets";
 import "./style.scss";
 
 interface Props {
   auth: any;
+  basket: any;
   baskets: any;
   logout: () => void;
+  toggleBasket: () => void;
 }
 
-const NavBar: React.FC<Props> = ({ auth, baskets, logout }) => {
+const NavBar: React.FC<Props> = ({
+  auth,
+  basket: { basketOpen },
+  baskets,
+  logout,
+  toggleBasket,
+}) => {
   const history = useHistory();
   const [open, setOpen] = useState<boolean>(false);
-  const [basketOpen, setBasketOpen] = useState<boolean>(false);
   const menuRef = useRef<any>(null);
   const [width] = useWindow();
   const mobile = width < 992;
 
-  const toggleBasket = () => {
+  const basketToggleHandler = () => {
     const basket = document.querySelector(".basket") as HTMLElement;
     basket.classList.toggle("basket-open");
 
@@ -32,7 +39,7 @@ const NavBar: React.FC<Props> = ({ auth, baskets, logout }) => {
     } else {
       disableScroll();
     }
-    setBasketOpen(!basketOpen);
+    toggleBasket();
   };
 
   const enableScroll = () => {
@@ -74,16 +81,16 @@ const NavBar: React.FC<Props> = ({ auth, baskets, logout }) => {
           </div>
         ) : (
           <div className="nav nav-left">
-            <div className="nav-item">
-              <Link to="/">shop products</Link>
+            <div onClick={() => history.push("/")} className="nav-item">
+              shop products
             </div>
           </div>
         )}
 
         {/* nav-brand */}
         <div className="nav nav-center">
-          <div className="nav-brand">
-            <Link to="/">self Care</Link>
+          <div onClick={() => history.push("/")} className="nav-brand">
+            self Care
           </div>
         </div>
 
@@ -101,19 +108,26 @@ const NavBar: React.FC<Props> = ({ auth, baskets, logout }) => {
                 logout
               </div>
             ) : (
-              <div className="nav-item">
-                <Link to="/account">account</Link>
+              <div
+                onClick={() => history.push("/account")}
+                className="nav-item"
+              >
+                account
               </div>
             )
           ) : (
             <></>
           )}
-          <div onClick={() => toggleBasket()} className="nav-icon">
+          <div onClick={() => basketToggleHandler()} className="nav-icon">
             <BasketIcon />
-            <span className="basket-count">{baskets.length}</span>
+            <span className="basket-count">
+              {baskets.reduce((acc: any, item: any) => {
+                return acc + item.quantity;
+              }, 0)}
+            </span>
           </div>
         </div>
-        <Basket basketOpen={basketOpen} closeBasket={toggleBasket} />
+        <Basket basketOpen={basketOpen} closeBasket={basketToggleHandler} />
         {mobile && (
           <MobileNav
             open={open}
@@ -130,6 +144,7 @@ const NavBar: React.FC<Props> = ({ auth, baskets, logout }) => {
 
 const mapStateToProps = (state: any) => ({
   auth: state.auth,
+  basket: state.basket,
 });
 
-export default connect(mapStateToProps, { logout })(NavBar);
+export default connect(mapStateToProps, { logout, toggleBasket })(NavBar);

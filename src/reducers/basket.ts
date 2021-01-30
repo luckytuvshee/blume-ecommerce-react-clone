@@ -1,12 +1,23 @@
-import { GET_PRODUCTS, BASKET_ERROR, GET_BASKETS } from "../actions/types";
+import {
+  GET_PRODUCTS,
+  BASKET_ERROR,
+  GET_BASKETS,
+  CLEAR_BASKET,
+  UPDATE_BASKET,
+  ADD_TO_BASKET,
+  TOGGLE_BASKET,
+  DELETE_PRODUCT_FROM_BASKET,
+} from "../actions/types";
 
 interface state {
   baskets: [];
+  basketOpen: boolean;
   loading: boolean;
 }
 
 const initialState: state = {
   baskets: [],
+  basketOpen: false,
   loading: true,
 };
 
@@ -21,6 +32,47 @@ const basket = (
       return {
         ...state,
         baskets: payload,
+        loading: false,
+      };
+    case UPDATE_BASKET:
+      return {
+        ...state,
+        baskets: state.baskets.map((basket: any) => {
+          if (basket.product_id === payload.product_id) {
+            return {
+              ...basket,
+              quantity: basket.quantity + payload.quantity,
+            };
+          }
+          return basket;
+        }),
+        loading: false,
+      };
+    case ADD_TO_BASKET:
+      return {
+        ...state,
+        baskets: [...state.baskets, payload],
+        loading: false,
+      };
+    case TOGGLE_BASKET:
+      return {
+        ...state,
+        basketOpen: !state.basketOpen,
+        loading: false,
+      };
+    case DELETE_PRODUCT_FROM_BASKET:
+      return {
+        ...state,
+        baskets: state.baskets.filter(
+          (basket: any) => basket.product !== payload.product_id
+        ),
+        loading: false,
+      };
+
+    case CLEAR_BASKET:
+      return {
+        ...state,
+        baskets: [],
         loading: false,
       };
     case BASKET_ERROR:

@@ -4,14 +4,47 @@ import "./style.scss";
 
 interface Props {
   product: any;
+  basketOpen: boolean;
+  toggleBasket: () => void;
+  addProductToBasket: (product_id: string, quantity: number) => void;
 }
 
-const ProductItem: React.FC<Props> = ({ product }) => {
+const ProductItem: React.FC<Props> = ({
+  product,
+  basketOpen,
+  toggleBasket,
+  addProductToBasket,
+}) => {
   const history = useHistory();
+
+  const enableScroll = () => {
+    document.body.style.position = "relative";
+    document.body.style.overflow = "auto";
+  };
+
+  const disableScroll = () => {
+    document.body.style.position = "fixed";
+    document.body.style.overflow = "scroll";
+  };
 
   return (
     <div className="product-item">
-      <div onClick={() => console.log("kkk")} className="bottom-text">
+      <div
+        onClick={() => {
+          addProductToBasket(product.id, 1);
+
+          const basket = document.querySelector(".basket") as HTMLElement;
+          basket.classList.toggle("basket-open");
+
+          if (basketOpen) {
+            enableScroll();
+          } else {
+            disableScroll();
+          }
+          toggleBasket();
+        }}
+        className="bottom-text"
+      >
         Add to cart
       </div>
       <div

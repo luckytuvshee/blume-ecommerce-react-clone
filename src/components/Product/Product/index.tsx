@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import MainLayout from "../../layout/MainLayout";
+import { addProductToBasket, toggleBasket } from "../../../actions/baskets";
 import "./style.scss";
 
 interface Props {
   product: any;
+  basket: any;
+  toggleBasket: () => void;
+  addProductToBasket: (product_id: string, quantity: number) => void;
   match: {
     params: {
       id: string;
@@ -14,6 +18,9 @@ interface Props {
 
 const Product: React.FC<Props> = ({
   product: { products, loading },
+  basket: { basketOpen },
+  toggleBasket,
+  addProductToBasket,
   match: {
     params: { id },
   },
@@ -23,6 +30,29 @@ const Product: React.FC<Props> = ({
 
   const addToBasket = (e: any) => {
     e.preventDefault();
+    addProductToBasket(product.id, count);
+
+    const basket = document.querySelector(".basket") as HTMLElement;
+    basket.classList.toggle("basket-open");
+
+    if (basketOpen) {
+      enableScroll();
+    } else {
+      disableScroll();
+    }
+    toggleBasket();
+
+    setCount(1);
+  };
+
+  const enableScroll = () => {
+    document.body.style.position = "relative";
+    document.body.style.overflow = "auto";
+  };
+
+  const disableScroll = () => {
+    document.body.style.position = "fixed";
+    document.body.style.overflow = "scroll";
   };
 
   return product ? (
@@ -77,6 +107,9 @@ const Product: React.FC<Props> = ({
 
 const mapStateToProps = (state: any) => ({
   product: state.product,
+  basket: state.basket,
 });
 
-export default connect(mapStateToProps, {})(Product);
+export default connect(mapStateToProps, { addProductToBasket, toggleBasket })(
+  Product
+);

@@ -1,8 +1,18 @@
 import React from "react";
 
-const CloseSvg = () => {
+interface Props {
+  deleteBasketProduct: (product_id: string) => void;
+  product_id: string;
+}
+
+const CloseSvg: React.FC<Props> = ({ deleteBasketProduct, product_id }) => {
+  const clickHandler = () => {
+    deleteBasketProduct(product_id);
+  };
+
   return (
     <svg
+      onClick={() => clickHandler()}
       viewBox="0 0 16 16"
       width="16"
       height="16"

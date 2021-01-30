@@ -99,7 +99,7 @@
   }
 }
 
-@media screen and (max-width: 992px) {
+@media screen and (max-width: 1100px) {
   .basket-container {
     .basket {
       right: -50%;
@@ -108,11 +108,20 @@
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 993px) {
   .basket-container {
     .basket {
       right: -60%;
       width: 60%;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .basket-container {
+    .basket {
+      right: -70%;
+      width: 70%;
     }
   }
 }
