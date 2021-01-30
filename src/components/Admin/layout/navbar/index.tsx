@@ -1,46 +1,22 @@
 import { useRef, useState } from "react";
 import { connect } from "react-redux";
-import { useWindow } from "../../../hooks";
-import { logout } from "../../../actions/auth";
+import { useWindow } from "../../../../hooks";
+import { logout } from "../../../../actions/auth";
 import { useHistory } from "react-router-dom";
 import MobileNav from "./MobileNav";
-import Basket from "./Basket";
-import BasketIcon from "./BasketIcon";
-import { toggleBasket } from "../../../actions/baskets";
 import "./style.scss";
 
 interface Props {
   auth: any;
-  basket: any;
-  baskets: any;
   logout: () => void;
-  toggleBasket: () => void;
 }
 
-const NavBar: React.FC<Props> = ({
-  auth,
-  basket: { basketOpen },
-  baskets,
-  logout,
-  toggleBasket,
-}) => {
+const NavBar: React.FC<Props> = ({ auth, logout }) => {
   const history = useHistory();
   const [open, setOpen] = useState<boolean>(false);
   const menuRef = useRef<any>(null);
   const [width] = useWindow();
   const mobile = width < 992;
-
-  const basketToggleHandler = () => {
-    const basket = document.querySelector(".basket") as HTMLElement;
-    basket.classList.toggle("basket-open");
-
-    if (basketOpen) {
-      enableScroll();
-    } else {
-      disableScroll();
-    }
-    toggleBasket();
-  };
 
   const enableScroll = () => {
     document.body.style.position = "relative";
@@ -144,16 +120,7 @@ const NavBar: React.FC<Props> = ({
           ) : (
             <></>
           )}
-          <div onClick={() => basketToggleHandler()} className="nav-icon">
-            <BasketIcon />
-            <span className="basket-count">
-              {baskets.reduce((acc: any, item: any) => {
-                return acc + item.quantity;
-              }, 0)}
-            </span>
-          </div>
         </div>
-        <Basket basketOpen={basketOpen} closeBasket={basketToggleHandler} />
         {mobile && (
           <MobileNav
             open={open}
@@ -171,7 +138,6 @@ const NavBar: React.FC<Props> = ({
 
 const mapStateToProps = (state: any) => ({
   auth: state.auth,
-  basket: state.basket,
 });
 
-export default connect(mapStateToProps, { logout, toggleBasket })(NavBar);
+export default connect(mapStateToProps, { logout })(NavBar);

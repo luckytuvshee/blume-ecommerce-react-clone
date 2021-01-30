@@ -10,8 +10,8 @@ import "./style.scss";
 
 const App = () => {
   useEffect(() => {
-    store.dispatch(loadUser());
     store.dispatch(getProducts());
+    store.dispatch(loadUser());
   }, []);
 
   return (

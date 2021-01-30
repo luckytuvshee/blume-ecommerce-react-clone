@@ -1,13 +1,18 @@
-.product {
+.admin-product {
   display: flex;
   margin: 0 30px;
 
   .product-details {
-    width: 50%;
+    width: 60%;
+    margin: auto;
     display: flex;
     min-height: 480px;
     flex-direction: column;
-    justify-content: space-between;
+
+    .title {
+      font-family: Apercu;
+      font-size: 26px;
+    }
 
     h1 {
       font-family: ValueSerif;
@@ -18,6 +23,65 @@
     p {
       font-family: Apercu;
       font-size: 18px;
+    }
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      width: calc(100% - 10px);
+      margin: 5px;
+      margin-bottom: 50px;
+
+      .input-wrapper {
+        font-family: Apercu;
+        font-size: 18px;
+        display: flex;
+        padding-top: 30px;
+
+        .checkbox {
+          .checkbox-item {
+            display: flex;
+            align-items: center;
+          }
+        }
+
+        span {
+          width: 120px;
+        }
+      }
+
+      .submit {
+        border: 0;
+        padding: 20px 0;
+        color: #fff;
+        cursor: pointer;
+        width: 300px;
+        border-radius: 2px;
+        text-transform: uppercase;
+        font-family: Apercu;
+        font-weight: 700;
+        font-size: 18px;
+        margin-top: 45px;
+        background: #001e42;
+
+        &:hover {
+          color: #edbe9f;
+        }
+      }
+
+      input,
+      select {
+        display: block;
+        outline: 0;
+        border-radius: 0;
+        border: 0;
+        position: relative;
+        font-size: inherit;
+        background-color: transparent;
+        color: #001e42;
+        border-bottom: 1px solid #001e42;
+        width: 100%;
+      }
     }
 
     .basket {

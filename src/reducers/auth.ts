@@ -11,15 +11,17 @@ import {
 } from "../actions/types";
 
 interface state {
-  isAuthenticated: boolean;
+  user: Object | null;
   loading: boolean;
   token: string | null;
+  isAuthenticated: boolean;
 }
 
 const initialState: state = {
+  user: null,
   isAuthenticated: false,
-  loading: true,
   token: localStorage.getItem("token"),
+  loading: true,
 };
 
 const auth = (state = initialState, action: any) => {
@@ -29,7 +31,8 @@ const auth = (state = initialState, action: any) => {
     case USER_LOADED:
       return {
         ...state,
-        token: payload,
+        user: payload.user,
+        token: payload.token,
         isAuthenticated: true,
         loading: false,
       };

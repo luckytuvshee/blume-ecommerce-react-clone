@@ -1,9 +1,10 @@
-.basket-item {
+.admin-product-item {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
   padding-bottom: 30px;
   border-bottom: 2px solid #eaeaea;
+  font-family: Apercu;
 
   .image {
     display: flex;
@@ -33,52 +34,54 @@
       p {
         margin: 0;
       }
-
-      .close-button {
-        display: inline-block;
-        vertical-align: middle;
-        overflow: visible;
-        margin-top: 2;
-        cursor: pointer;
-      }
     }
 
     .bottom {
       display: flex;
-      height: 80px;
+      flex-direction: column;
+      min-height: 80px;
       justify-content: space-between;
-      align-items: flex-end;
       color: #001e42;
       font-weight: 700;
 
-      .quantity {
-        height: 50px;
+      .bottom-info {
         display: flex;
-        align-items: center;
-        border: 2px solid #001e42;
+        justify-content: space-between;
+        align-items: flex-end;
 
-        .plus,
-        .minus {
-          width: 20px;
-          height: 40px;
+        .action {
           display: flex;
-          font-family: Apercu;
-          font-size: 24px;
-          align-items: center;
-          justify-content: center;
-          padding: 5px;
-          cursor: pointer;
-        }
 
-        .product-quantity {
-          display: block;
-          width: 20px;
-          font-size: 20px;
-          font-family: Apercu;
-          text-align: center;
-          border: 0;
-          margin: 0 10px;
+          p {
+            border: 1px solid #001e42;
+            padding: 2px 5px;
+            cursor: pointer;
+          }
+
+          .edit {
+            margin-right: 20px;
+            width: 100px;
+            text-align: center;
+            transition: all 0.4s;
+            &:hover {
+              background: #001e42;
+              color: #fff;
+            }
+          }
+
+          .delete {
+            transition: all 0.4s;
+            border: 1px solid crimson;
+            &:hover {
+              background: crimson;
+              color: #fff;
+            }
+          }
         }
+      }
+
+      p {
+        margin: 0;
       }
     }
   }

@@ -1,0 +1,25 @@
+.admin-products {
+  margin: 10px;
+
+  .create-product {
+    border: 0;
+    padding: 20px 0;
+    color: #fff;
+    cursor: pointer;
+    width: 300px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    font-family: Apercu;
+    text-align: center;
+    font-weight: 700;
+    font-size: 18px;
+    margin-top: 45px;
+    background: #001e42;
+    transition: all 0.4s;
+    margin-bottom: 50px;
+
+    &:hover {
+      color: #edbe9f;
+    }
+  }
+}

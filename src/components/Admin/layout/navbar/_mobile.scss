@@ -1,0 +1,12 @@
+.mobile-nav {
+  top: 86px;
+  z-index: 40000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  transition: all 0.25s;
+  // background: #fbece3;
+  background: #fff;
+  height: calc(100vh - 86px);
+}

@@ -20,11 +20,19 @@ export const loadUser = () => async (dispatch: any) => {
 
     if (token) {
       setAuthToken(token);
+      const res = await axios.get("/api/auth");
       dispatch({
         type: USER_LOADED,
-        payload: token,
+        payload: {
+          token,
+          user: res.data,
+        },
       });
       dispatch(getBaskets());
+    } else {
+      dispatch({
+        type: AUTH_ERROR,
+      });
     }
   } catch (err) {
     dispatch({
@@ -34,25 +42,11 @@ export const loadUser = () => async (dispatch: any) => {
 };
 
 // Register user
-export const register = ({
-  name,
-  email,
-  password,
-}: {
-  name: string;
-  email: string;
-  password: string;
-}) => async (dispatch: any) => {
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
-
-  const body = JSON.stringify({ name, email, password });
-
+export const register = (email: string, password: string) => async (
+  dispatch: any
+) => {
   try {
-    const res = await axios.post("/api/users", body, config);
+    const res = await axios.post("/api/users", { email, password });
 
     dispatch({
       type: REGISTER_SUCCESS,
@@ -61,11 +55,9 @@ export const register = ({
 
     dispatch(loadUser());
   } catch (err) {
-    const errors = err.response.data.errors;
-
-    if (errors) {
+    if (err) {
       console.log("error");
-      console.log(errors);
+      console.log(err);
     }
 
     dispatch({

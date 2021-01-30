@@ -1,27 +1,27 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import MainLayout from "../../layout/MainLayout";
-import { loginUser } from "../../../actions/auth";
+import { register } from "../../../actions/auth";
 import "./style.scss";
 import { connect } from "react-redux";
 
 interface Props {
-  loginUser: (email: string, password: string) => void;
+  register: (email: string, password: string) => void;
 }
 
-const Login: React.FC<Props> = ({ loginUser }) => {
+const Register: React.FC<Props> = ({ register }) => {
   const [email, setEmail] = useState<string>("john@yahoo.com");
   const [password, setPassword] = useState<string>("123456789");
 
   const login = (e: any) => {
     e.preventDefault();
-    loginUser(email, password);
+    register(email, password);
   };
 
   return (
     <MainLayout>
       <div className="login">
-        <h1>Sign In</h1>
+        <h1>Register</h1>
         <form className="form" onSubmit={login}>
           <input
             type="email"
@@ -38,13 +38,13 @@ const Login: React.FC<Props> = ({ loginUser }) => {
             required
           />
           <button className="submit" type="submit">
-            Sign in
+            Sign Up
           </button>
         </form>
         <p style={{ fontFamily: "Apercu" }}>
-          Don't have an account?{" "}
-          <Link style={{ textDecoration: "underline" }} to="/account/register">
-            Sign up
+          Already have an account?{" "}
+          <Link style={{ textDecoration: "underline" }} to="/account">
+            Login
           </Link>
         </p>
       </div>
@@ -52,4 +52,4 @@ const Login: React.FC<Props> = ({ loginUser }) => {
   );
 };
 
-export default connect(null, { loginUser })(Login);
+export default connect(null, { register })(Register);

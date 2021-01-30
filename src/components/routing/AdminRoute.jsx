@@ -2,17 +2,15 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
-const PrivateRoute = ({
+const AdminRoute = ({
   children,
-  auth: { isAuthenticated, loading },
+  auth: { user, isAuthenticated, loading },
   ...rest
 }) => {
 
-  return (
+  return !loading && (
     <Route {...rest}>
-      {isAuthenticated && !loading ? (
-        children
-      ) : (
+      {isAuthenticated ? user.is_admin ? children : <Redirect to='/' /> : (
         <Redirect to='/account' />
       )}
     </Route>
@@ -23,4 +21,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, null)(PrivateRoute);
+export default connect(mapStateToProps, null)(AdminRoute);
