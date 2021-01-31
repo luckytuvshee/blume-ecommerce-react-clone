@@ -5,7 +5,6 @@ import Swal from "sweetalert2";
 import { connect } from "react-redux";
 import { updateProduct, imageUpload } from "../../../../actions/products";
 import "../style.scss";
-import product from "../../../../reducers/product";
 
 interface Props {
   product: any;
@@ -58,7 +57,7 @@ const ProductEdit: React.FC<Props> = ({
       },
       false
     );
-  }, [loading]);
+  }, [loading]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const previewImage = (e: any) => {
     const preview = document.querySelector(
