@@ -52,6 +52,7 @@ const Basket: React.FC<Props> = ({
           ) : (
             baskets.map((basket: any) => (
               <BasketItem
+                key={basket.id}
                 basket={basket}
                 closeBasket={closeBasket}
                 updateQuantity={updateQuantity}

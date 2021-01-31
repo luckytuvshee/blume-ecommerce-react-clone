@@ -32,9 +32,16 @@ const BasketItem: React.FC<Props> = ({
         className="image"
       >
         <img
+          style={{ display: basket.url ? "block" : "none" }}
           alt={basket.title}
-          src="https://cdn.shopify.com/s/files/1/0003/4580/0755/products/BLUMEMAY2020-Daydreamer_1_880x800.jpg?v=1596416050"
+          src={basket.url}
         />
+        <p
+          className="no-image"
+          style={{ display: basket.url ? "none" : "flex" }}
+        >
+          No image
+        </p>
       </div>
       <div className="content">
         <div className="header">

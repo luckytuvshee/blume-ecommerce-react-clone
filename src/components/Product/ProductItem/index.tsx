@@ -28,7 +28,7 @@ const ProductItem: React.FC<Props> = ({
   };
 
   return (
-    <div className="product-item">
+    <div key={product.id} className="product-item">
       <div
         onClick={() => {
           addProductToBasket(product.id, 1);
@@ -52,10 +52,16 @@ const ProductItem: React.FC<Props> = ({
         onClick={() => history.push(`/product/${product.slug}`)}
       >
         <img
+          style={{ display: product.url ? "block" : "none" }}
           alt={product.title}
-          className="lazyload"
-          src="https://cdn.shopify.com/s/files/1/0003/4580/0755/products/BLUMEMAY2020-Daydreamer_1_880x800.jpg?v=1596416050"
+          src={product.url}
         />
+        <p
+          className="no-image"
+          style={{ display: product.url ? "none" : "flex" }}
+        >
+          No image
+        </p>
       </div>
       <span onClick={() => history.push(`/product/${product.slug}`)}>
         <h3
@@ -64,7 +70,7 @@ const ProductItem: React.FC<Props> = ({
             textAlign: "center",
           }}
         >
-          Daydreamer Face Wash
+          {product.title}
         </h3>
         <div
           style={{
@@ -74,8 +80,8 @@ const ProductItem: React.FC<Props> = ({
             justifyContent: "center",
           }}
         >
-          <h5 style={{ margin: "2px 0" }}>Super Gentle Face Wash</h5>
-          <span>$ 16 USD</span>
+          <h5 style={{ margin: "2px 0" }}>{product.description}</h5>
+          <span>$ {product.price.toFixed(2)} USD</span>
         </div>
       </span>
     </div>

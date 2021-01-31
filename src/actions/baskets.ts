@@ -3,8 +3,9 @@ import {
   UPDATE_BASKET,
   BASKET_ERROR,
   ADD_TO_BASKET,
-  DELETE_PRODUCT_FROM_BASKET,
   TOGGLE_BASKET,
+  UPDATE_BASKET_PRODUCT,
+  DELETE_PRODUCT_FROM_BASKET,
 } from "./types";
 import axios from "axios";
 
@@ -57,7 +58,7 @@ export const deleteBasketProduct = (product_id: string) => async (
 
     dispatch({
       type: DELETE_PRODUCT_FROM_BASKET,
-      payload: basketItem,
+      payload: basketItem.data,
     });
   } catch (err) {
     console.log("err");
@@ -98,6 +99,13 @@ export const addProductToBasket = (
       type: BASKET_ERROR,
     });
   }
+};
+
+export const updateBasketProduct = (product: any) => async (dispatch: any) => {
+  dispatch({
+    type: UPDATE_BASKET_PRODUCT,
+    payload: product,
+  });
 };
 
 export const toggleBasket = () => async (dispatch: any) => {

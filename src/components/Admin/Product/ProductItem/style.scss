@@ -8,9 +8,25 @@
 
   .image {
     display: flex;
+    width: 100px;
     height: 100px;
     cursor: pointer;
+
+    .no-image {
+      font-family: Apercu;
+      height: 100px;
+      width: 100px;
+      object-fit: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #81a1c1;
+      margin: 0;
+      color: #fff;
+    }
+
     img {
+      width: 100px;
       height: 100px;
       object-fit: cover;
       display: block;

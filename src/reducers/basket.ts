@@ -7,6 +7,7 @@ import {
   ADD_TO_BASKET,
   TOGGLE_BASKET,
   DELETE_PRODUCT_FROM_BASKET,
+  UPDATE_BASKET_PRODUCT,
 } from "../actions/types";
 
 interface state {
@@ -60,11 +61,29 @@ const basket = (
         basketOpen: !state.basketOpen,
         loading: false,
       };
+    case UPDATE_BASKET_PRODUCT:
+      return {
+        ...state,
+        baskets: state.baskets.map((basket: any) => {
+          if (basket.product_id === payload.id) {
+            return {
+              ...basket,
+              title: payload.title,
+              slug: payload.slug,
+              description: payload.description,
+              price: payload.price,
+              url: payload.url,
+            };
+          }
+          return basket;
+        }),
+        loading: false,
+      };
     case DELETE_PRODUCT_FROM_BASKET:
       return {
         ...state,
         baskets: state.baskets.filter(
-          (basket: any) => basket.product !== payload.product_id
+          (basket: any) => basket.product_id !== payload.product_id
         ),
         loading: false,
       };

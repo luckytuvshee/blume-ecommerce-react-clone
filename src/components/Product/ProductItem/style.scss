@@ -47,10 +47,23 @@
 
   .image-wrapper {
     img {
-      min-height: 480px;
+      height: 480px;
       width: 100%;
       object-fit: cover;
       display: block;
+    }
+
+    .no-image {
+      font-family: Apercu;
+      height: 480px;
+      width: 100%;
+      object-fit: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #81a1c1;
+      margin: 0;
+      color: #fff;
     }
   }
 }
@@ -61,7 +74,7 @@
 
     .image-wrapper {
       img {
-        min-height: 340px;
+        height: 340px;
       }
     }
   }
@@ -82,7 +95,7 @@
 
     .image-wrapper {
       img {
-        min-height: 240px;
+        height: 240px;
       }
     }
   }
@@ -92,7 +105,7 @@
   .product-item {
     .image-wrapper {
       img {
-        min-height: 160px;
+        height: 160px;
       }
     }
   }

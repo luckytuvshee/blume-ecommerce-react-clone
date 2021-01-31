@@ -1,14 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import MainLayout from "../../layout/MainLayout";
-import "./style.scss";
+import { useHistory } from "react-router-dom";
+import Swal from "sweetalert2";
+import { connect } from "react-redux";
+import { createProduct } from "../../../../actions/products";
+import "../style.scss";
 
-interface Props {}
+interface Props {
+  createProduct: (body: any) => Promise<boolean>;
+}
 
-const ProductCreate: React.FC<Props> = () => {
+const ProductCreate: React.FC<Props> = ({ createProduct }) => {
+  const history = useHistory();
+  const inputRef = useRef<any>(null);
   const [title, setTitle] = useState<string>("");
   const [price, setPrice] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [url, setUrl] = useState<string>("");
+
+  useEffect(() => {
+    window.addEventListener(
+      "dragover",
+      function (e: any) {
+        e.preventDefault();
+      },
+      false
+    );
+    window.addEventListener(
+      "drop",
+      function (e: any) {
+        e.preventDefault();
+      },
+      false
+    );
+  }, []);
 
   const previewImage = (e: any) => {
     const preview = document.querySelector(
@@ -19,23 +44,95 @@ const ProductCreate: React.FC<Props> = () => {
     const reader = new FileReader();
     reader.readAsDataURL(image);
     reader.onload = () => {
-      preview.src = reader.result + "";
-      setUrl(image.name);
+      if (image.type === "image/jpeg" || image.type === "image/png") {
+        preview.src = reader.result + "";
+        setUrl(image.name);
+      } else {
+        preview.src = "";
+        Swal.fire("Error!", "Please upload jpeg or png!", "error");
+      }
     };
   };
 
-  const onSubmit = (e: any) => {
+  const removeImage = () => {
+    const preview = document.querySelector(
+      "#product-image"
+    ) as HTMLImageElement;
+    preview.src = "";
+    setUrl("");
+  };
+
+  const dragOver = (e: any) => {
+    e.stopPropagation();
     e.preventDefault();
+    const preview = document.querySelector(
+      ".image-preview"
+    ) as HTMLImageElement;
+
+    preview.style.border = "3px dashed #fff";
+    preview.style.background = "#001e42";
+    preview.style.opacity = "0.8";
+    preview.style.color = "#fff";
+  };
+
+  const dragLeave = (e: any) => {
+    const preview = document.querySelector(
+      ".image-preview"
+    ) as HTMLImageElement;
+
+    preview.style.border = "3px dashed #001e42";
+    preview.style.color = "#001e42";
+    preview.style.background = "";
+    preview.style.opacity = "1";
+  };
+
+  const dragDrop = (e: any) => {
+    e.preventDefault();
+
+    const preview = document.querySelector(
+      "#product-image"
+    ) as HTMLImageElement;
+    const image = e.dataTransfer.files[0];
+
+    const reader = new FileReader();
+    reader.readAsDataURL(image);
+    reader.onload = () => {
+      preview.src = reader.result + "";
+      if (image.type === "image/jpeg" || image.type === "image/png") {
+        setUrl(image.name);
+      } else {
+        Swal.fire("Error!", "Please upload jpeg or png!", "error");
+      }
+    };
+
+    const imagePreview = document.querySelector(
+      ".image-preview"
+    ) as HTMLImageElement;
+
+    imagePreview.style.border = "3px dashed #001e42";
+    imagePreview.style.color = "#001e42";
+    imagePreview.style.background = "";
+    imagePreview.style.opacity = "1";
+  };
+
+  const onSubmit = async (e: any) => {
+    e.preventDefault();
+
+    if (!/[+-]?([0-9]*[.])?[0-9]+/.test(price)) {
+      Swal.fire("Warning!", "Price field should be only number", "warning");
+      return;
+    }
 
     const body = {
       title,
-      price,
+      price: parseFloat(price),
       description,
-      url: Date.now() + url,
+      url: url ? Date.now() + url : "",
     };
 
-    console.log("body");
-    console.log(body);
+    if (await createProduct(body)) {
+      history.push("/admin");
+    }
   };
 
   return (
@@ -77,20 +174,51 @@ const ProductCreate: React.FC<Props> = () => {
             <div className="input-wrapper">
               <span>Image</span>
               <input
+                style={{ display: "none" }}
+                ref={inputRef}
                 onChange={previewImage}
-                style={{ border: "none" }}
                 type="file"
                 placeholder="image"
               />
+              <p className="upload-wrapper">
+                <span
+                  onClick={() => inputRef.current.click()}
+                  className="upload"
+                >
+                  Upload image
+                </span>
+              </p>
             </div>
 
-            <img
-              id="product-image"
-              style={{ marginTop: 30 }}
-              alt={title}
-              className="lazyload"
-              src="https://cdn.shopify.com/s/files/1/0003/4580/0755/products/BLUMEMAY2020-Daydreamer_1_880x800.jpg?v=1596416050"
-            />
+            <div
+              onDrop={dragDrop}
+              onDragOver={dragOver}
+              onDragLeave={dragLeave}
+              className="image-preview"
+            >
+              <img
+                id="product-image"
+                className="img"
+                style={{ marginTop: 30, display: url === "" ? "none" : "flex" }}
+                alt={title}
+                src="https://cdn.shopify.com/s/files/1/0003/4580/0755/products/BLUMEMAY2020-Daydreamer_1_880x800.jpg?v=1596416050"
+              />
+              <p
+                style={{ display: url === "" ? "none" : "flex" }}
+                onClick={() => removeImage()}
+                className="remove-image"
+              >
+                Remove image
+              </p>
+              <p
+                style={{ display: url === "" ? "flex" : "none" }}
+                className="img image-placeholder"
+              >
+                No image uploaded
+                <br />
+                drag here or click on upload button
+              </p>
+            </div>
 
             <button className="submit" type="submit">
               Create Product
@@ -102,4 +230,4 @@ const ProductCreate: React.FC<Props> = () => {
   );
 };
 
-export default ProductCreate;
+export default connect(null, { createProduct })(ProductCreate);

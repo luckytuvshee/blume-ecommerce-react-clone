@@ -1,16 +1,17 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import "./style.scss";
 import Swal from "sweetalert2";
+import "./style.scss";
 
 interface Props {
+  deleteProduct: (id: string) => Promise<boolean>;
   product: any;
 }
 
-const ProductItem: React.FC<Props> = ({ product }) => {
+const ProductItem: React.FC<Props> = ({ deleteProduct, product }) => {
   const history = useHistory();
 
-  const deleteProduct = () => {
+  const removeProduct = () => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -19,9 +20,11 @@ const ProductItem: React.FC<Props> = ({ product }) => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        Swal.fire("Deleted!", `${product.title} deleted`, "success");
+        if (await deleteProduct(product.id)) {
+          Swal.fire("Deleted!", `${product.title} deleted`, "success");
+        }
       }
     });
   };
@@ -35,9 +38,16 @@ const ProductItem: React.FC<Props> = ({ product }) => {
         className="image"
       >
         <img
+          style={{ display: product.url ? "block" : "none" }}
           alt={product.title}
-          src="https://cdn.shopify.com/s/files/1/0003/4580/0755/products/BLUMEMAY2020-Daydreamer_1_880x800.jpg?v=1596416050"
+          src={product.url}
         />
+        <p
+          className="no-image"
+          style={{ display: product.url ? "none" : "flex" }}
+        >
+          No image
+        </p>
       </div>
       <div className="content">
         <div className="header">
@@ -65,7 +75,7 @@ const ProductItem: React.FC<Props> = ({ product }) => {
               >
                 edit
               </p>
-              <p onClick={() => deleteProduct()} className="delete">
+              <p onClick={() => removeProduct()} className="delete">
                 delete
               </p>
             </div>

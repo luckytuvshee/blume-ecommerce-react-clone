@@ -10,9 +10,23 @@
     height: 100px;
     cursor: pointer;
     img {
+      width: 100px;
       height: 100px;
       object-fit: cover;
       display: block;
+    }
+
+    .no-image {
+      font-family: Apercu;
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #81a1c1;
+      margin: 0;
+      color: #fff;
     }
   }
 

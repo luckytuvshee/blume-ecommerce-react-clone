@@ -1,0 +1,191 @@
+.admin-product {
+  display: flex;
+  margin: 0 30px;
+
+  .product-details {
+    width: 60%;
+    margin: auto;
+    display: flex;
+    min-height: 480px;
+    flex-direction: column;
+
+    .title {
+      font-family: Apercu;
+      font-size: 26px;
+    }
+
+    h1 {
+      font-family: ValueSerif;
+      font-size: 34px;
+      margin: 0;
+    }
+
+    p {
+      font-family: Apercu;
+      font-size: 18px;
+    }
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      width: calc(100% - 10px);
+      margin: 5px;
+      margin-bottom: 50px;
+
+      .input-wrapper {
+        font-family: Apercu;
+        font-size: 18px;
+        display: flex;
+        padding-top: 30px;
+
+        .upload-wrapper {
+          width: 100%;
+          margin-top: -8px;
+          display: flex;
+          align-items: center;
+
+          .upload {
+            border: 0;
+            margin: 0;
+            padding: 20px 0;
+            color: #fff;
+            width: 200px !important;
+            border-radius: 2px;
+            text-transform: uppercase;
+            font-family: Apercu;
+            font-weight: 700;
+            font-size: 16px;
+            background: #001e42;
+            transition: all 0.4s;
+            height: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+
+            &:hover {
+              color: #edbe9f;
+            }
+          }
+        }
+
+        span {
+          width: 135px !important;
+        }
+      }
+
+      .submit {
+        border: 0;
+        padding: 20px 0;
+        color: #fff;
+        cursor: pointer;
+        width: 300px;
+        border-radius: 2px;
+        text-transform: uppercase;
+        font-family: Apercu;
+        font-weight: 700;
+        font-size: 18px;
+        margin-top: 45px;
+        background: #001e42;
+        transition: all 0.4s;
+
+        &:hover {
+          color: #edbe9f;
+        }
+      }
+
+      input,
+      select {
+        display: block;
+        outline: 0;
+        border-radius: 0;
+        border: 0;
+        position: relative;
+        font-size: inherit;
+        background-color: transparent;
+        color: #001e42;
+        border-bottom: 1px solid #001e42;
+        width: 100%;
+      }
+    }
+  }
+
+  .image-preview {
+    position: relative;
+    border: 3px dashed #001e42;
+    border-radius: 2px;
+    padding: 10px;
+    width: 100%;
+
+    &:hover {
+      .remove-image {
+        opacity: 0.6;
+      }
+    }
+
+    .remove-image {
+      cursor: pointer;
+      border-radius: 2px;
+      transition: all 0.4s;
+      opacity: 0.2;
+      color: #001e42;
+      border: 1px solid #001e42;
+      background: #fff;
+      position: absolute;
+      width: 200px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Apercu;
+      font-size: 24px;
+      top: calc(50% - 25px);
+      left: calc(50% - 100px);
+
+      &:hover {
+        opacity: 1;
+        color: #fff;
+        border: 1px solid #001e42;
+        background: #001e42;
+      }
+    }
+
+    .img {
+      min-height: 480px;
+      width: 100%;
+      object-fit: cover;
+      display: block;
+      margin: 0 !important;
+      padding: 0;
+    }
+
+    .image-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 24px;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .admin-product {
+    flex-direction: column-reverse;
+    margin-bottom: 30px;
+
+    .product-details {
+      width: 100%;
+      min-height: 100px;
+    }
+
+    .image-preview {
+      transition: all 0.4s;
+      opacity: "0.8";
+      .product-image {
+        width: 100%;
+        margin-bottom: 30px;
+      }
+    }
+  }
+}
