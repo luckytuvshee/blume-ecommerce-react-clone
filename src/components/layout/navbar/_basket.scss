@@ -20,6 +20,7 @@
     width: 40%;
     opacity: 1;
     z-index: 99999999;
+    overflow-y: auto;
 
     .basket-header {
       height: 75px;
@@ -51,6 +52,7 @@
     .basket-content {
       padding-left: 20px;
       padding-right: 22px;
+      margin-bottom: 22px;
 
       .basket-empty {
         color: #001e42;
