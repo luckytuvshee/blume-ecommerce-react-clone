@@ -31,7 +31,7 @@ const MobileNav: React.FC<Props> = ({
           style={{
             height: 20,
             paddingLeft: 0,
-            display: isAuthenticated && user.is_admin ? "flex" : "none",
+            display: isAuthenticated && user && user.is_admin ? "flex" : "none",
           }}
           className="nav"
         >

@@ -24,13 +24,17 @@ const Products: React.FC<Props> = ({
       >
         Create Product
       </h2>
-      {products.map((product: any) => (
-        <ProductItem
-          key={product.id}
-          product={product}
-          deleteProduct={deleteProduct}
-        />
-      ))}
+      {products.length > 0 ? (
+        products.map((product: any) => (
+          <ProductItem
+            key={product.id}
+            product={product}
+            deleteProduct={deleteProduct}
+          />
+        ))
+      ) : (
+        <h2 style={{ fontFamily: "Apercu" }}>No products</h2>
+      )}
     </div>
   );
 };

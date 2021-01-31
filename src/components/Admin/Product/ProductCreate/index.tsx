@@ -3,20 +3,21 @@ import MainLayout from "../../layout/MainLayout";
 import { useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 import { connect } from "react-redux";
-import { createProduct } from "../../../../actions/products";
+import { createProduct, imageUpload } from "../../../../actions/products";
 import "../style.scss";
 
 interface Props {
   createProduct: (body: any) => Promise<boolean>;
+  imageUpload: (image: any) => Promise<string>;
 }
 
-const ProductCreate: React.FC<Props> = ({ createProduct }) => {
+const ProductCreate: React.FC<Props> = ({ createProduct, imageUpload }) => {
   const history = useHistory();
   const inputRef = useRef<any>(null);
   const [title, setTitle] = useState<string>("");
   const [price, setPrice] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [url, setUrl] = useState<string>("");
+  const [image, setImage] = useState<any>();
 
   useEffect(() => {
     window.addEventListener(
@@ -43,12 +44,11 @@ const ProductCreate: React.FC<Props> = ({ createProduct }) => {
 
     const reader = new FileReader();
     reader.readAsDataURL(image);
-    reader.onload = () => {
+    reader.onload = async () => {
+      preview.src = reader.result + "";
       if (image.type === "image/jpeg" || image.type === "image/png") {
-        preview.src = reader.result + "";
-        setUrl(image.name);
+        setImage({ name: await imageUpload(image) });
       } else {
-        preview.src = "";
         Swal.fire("Error!", "Please upload jpeg or png!", "error");
       }
     };
@@ -59,7 +59,7 @@ const ProductCreate: React.FC<Props> = ({ createProduct }) => {
       "#product-image"
     ) as HTMLImageElement;
     preview.src = "";
-    setUrl("");
+    setImage({ name: "" });
   };
 
   const dragOver = (e: any) => {
@@ -97,11 +97,12 @@ const ProductCreate: React.FC<Props> = ({ createProduct }) => {
     const reader = new FileReader();
     reader.readAsDataURL(image);
     reader.onload = () => {
-      preview.src = reader.result + "";
       if (image.type === "image/jpeg" || image.type === "image/png") {
-        setUrl(image.name);
+        preview.src = reader.result + "";
+        setImage(image.name);
       } else {
-        Swal.fire("Error!", "Please upload jpeg or png!", "error");
+        preview.src = "";
+        Swal.fire("Error!", "Please only upload jpeg or png!", "error");
       }
     };
 
@@ -127,7 +128,7 @@ const ProductCreate: React.FC<Props> = ({ createProduct }) => {
       title,
       price: parseFloat(price),
       description,
-      url: url ? Date.now() + url : "",
+      url: image && image.name ? image.name : "",
     };
 
     if (await createProduct(body)) {
@@ -199,19 +200,26 @@ const ProductCreate: React.FC<Props> = ({ createProduct }) => {
               <img
                 id="product-image"
                 className="img"
-                style={{ marginTop: 30, display: url === "" ? "none" : "flex" }}
+                style={{
+                  marginTop: 30,
+                  display: image && image.name === "" ? "none" : "flex",
+                }}
                 alt={title}
-                src="https://cdn.shopify.com/s/files/1/0003/4580/0755/products/BLUMEMAY2020-Daydreamer_1_880x800.jpg?v=1596416050"
+                src={image && image.name}
               />
               <p
-                style={{ display: url === "" ? "none" : "flex" }}
+                style={{
+                  display: image && image.name === "" ? "none" : "flex",
+                }}
                 onClick={() => removeImage()}
                 className="remove-image"
               >
                 Remove image
               </p>
               <p
-                style={{ display: url === "" ? "flex" : "none" }}
+                style={{
+                  display: image && image.name === "" ? "flex" : "none",
+                }}
                 className="img image-placeholder"
               >
                 No image uploaded
@@ -230,4 +238,4 @@ const ProductCreate: React.FC<Props> = ({ createProduct }) => {
   );
 };
 
-export default connect(null, { createProduct })(ProductCreate);
+export default connect(null, { createProduct, imageUpload })(ProductCreate);
