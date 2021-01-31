@@ -17,7 +17,7 @@ const ProductCreate: React.FC<Props> = ({ createProduct, imageUpload }) => {
   const [title, setTitle] = useState<string>("");
   const [price, setPrice] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [image, setImage] = useState<any>();
+  const [image, setImage] = useState<any>({ name: "" });
 
   useEffect(() => {
     window.addEventListener(
