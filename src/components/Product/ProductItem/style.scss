@@ -18,7 +18,7 @@
   .bottom-text {
     position: absolute;
     left: 0;
-    bottom: 0;
+    top: 390px;
     z-index: 500;
     padding: 1em;
     text-align: center;
@@ -72,6 +72,10 @@
   .product-item {
     width: calc(48% - 0.5rem);
 
+    .bottom-text {
+      top: 250px;
+    }
+
     .image-wrapper {
       img {
         height: 340px;
@@ -89,8 +93,9 @@
 @media screen and (max-width: 480px) {
   .product-item {
     max-width: calc(50% - 20px);
+
     .bottom-text {
-      display: none;
+      top: 150px;
     }
 
     .image-wrapper {
@@ -103,6 +108,10 @@
 
 @media screen and (max-width: 340px) {
   .product-item {
+    .bottom-text {
+      display: none;
+    }
+
     .image-wrapper {
       img {
         height: 160px;
